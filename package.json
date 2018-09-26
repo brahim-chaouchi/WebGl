@@ -4,6 +4,7 @@
   "description": "Exemple webgl",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/brahim-chaouchi/WebGl/issues"
   },
-  "homepage": "https://github.com/brahim-chaouchi/WebGl#readme"
+  "homepage": "https://github.com/brahim-chaouchi/WebGl#readme",
+  "dependencies": {
+    "webpack": "^4.20.2"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.1"
+  }
 }
