@@ -1,26 +1,36 @@
 {
-  "name": "webgl",
+  "name": "webgl-example",
   "version": "1.0.0",
-  "description": "Exemple webgl",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brahim-chaouchi/WebGl.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode development",
+    "watch": "webpack --watch",
+    "prod": "NODE_ENV=production webpack --progress",
+    "dashboard": "webpack-dashboard"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/brahim-chaouchi/WebGl/issues"
-  },
-  "homepage": "https://github.com/brahim-chaouchi/WebGl#readme",
-  "dependencies": {
-    "webpack": "^4.20.2"
-  },
   "devDependencies": {
-    "webpack-cli": "^3.1.1"
+    "autoprefixer": "^9.1.5",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "node-sass": "^4.9.3",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "vue": "^2.5.17",
+    "vue-loader": "^14.2.3",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1",
+    "webpack-dashboard": "^2.0.0",
+    "webpack-dev-server": "^3.1.9"
   }
 }

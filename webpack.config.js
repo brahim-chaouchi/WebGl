@@ -1,15 +1,25 @@
-var path = require('path')
-var webpack = require('webpack')
+const webpack = require("webpack");
+const path = require("path");
+const ExtractTextWebpackPlugin = require("extract-text-webpack-plugin");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const OptimizeCSSAssets = require("optimize-css-assets-webpack-plugin");
+const DashboardPlugin = require("webpack-dashboard/plugin");
 
-module.exports = {
-  entry: './src/main.js',
-  output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
-    filename: 'build.js'
-  },
-  module: {
-    rules: [
+let config = {
+    entry: "./src/main.js",
+    output: {
+      path: path.resolve(__dirname, "./public"),
+      filename: "./bundle.js"
+    },
+    module: {
+        rules: [{
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: "babel-loader"
+        },{
+		  test: /\.scss$/,
+		  loader: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader']
+		},
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -23,57 +33,34 @@ module.exports = {
           }
           // other vue-loader options go here
         }
+      }]
       },
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        exclude: /node_modules/,
-        options: {
-          appendTsSuffixTo: [/\.vue$/],
-        }
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]'
-        }
-      }
-    ]
-  },
   resolve: {
     extensions: ['.ts', '.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
     }
   },
-  devServer: {
-    historyApiFallback: true,
-    noInfo: true
-  },
-  performance: {
-    hints: false
-  },
-  devtool: '#eval-source-map'
-}
-
+      plugins: [
+		  //new ExtractTextWebpackPlugin("styles.css"),
+		  new UglifyJSPlugin(),
+		  new DashboardPlugin()
+		]
+  }
+  
+  module.exports = config;
 if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
-  module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    }),
+  module.exports.plugins.push(
+    //new webpack.optimize.UglifyJsPlugin(),
+    new OptimizeCSSAssets(),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
-  ])
+  );
+}else{
+  module.exports.plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      minimize: false
+    })
+  );
 }
