@@ -33,7 +33,7 @@ function createProgram(gl, shaderSpecs) {
 	return program;
 }
 
-export function init() {
+export function init2() {
   var surface = document.getElementById('rendering-surface');
   var gl = surface.getContext('webgl');
   gl.viewport(0,0,surface.width,surface.height);
@@ -86,4 +86,29 @@ export function init() {
   requestAnimationFrame(function() {
 	render(gl, scene);
   });
+}
+export function init() {
+	//initialise le canvas
+	let surface = document.getElementById('rendering-surface');
+	let gl = surface.getContext('webgl');
+	gl.viewport(0,0,surface.width,surface.height);
+	gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	//initialise vertex shader
+	let vertexText=document.getElementById('vertex-shader').text;
+	let vertexShader=gl.createShader(gl.VERTEX_SHADER);
+	gl.shaderSource(vertexShader, vertexText);
+	gl.compileShader(vertexShader);
+	if(!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)){
+		throw "Erreur : Vertex compilation !";
+	}
+	//initialise fragment shader
+	let fragmentText=document.getElementById('fragment-shader').text;
+	let fragmentShader=gl.createShader(gl.FRAGMENT_SHADER);
+	gl.shaderSource(fragmentShader, fragmentText);
+	gl.compileShader(fragmentShader);
+	if(!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)){
+		throw "Erreur : Fragment compilation !";
+	}
+	//dessine
+	gl.clear(gl.COLOR_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
 }
