@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Hacking WebGL</title>
-    <script type="x-shader/x-vertex" id="vertex-shader">
-    precision mediump float;
-    attribute vec2 pos;
-    void main() {
-      gl_Position = vec4(pos, 0.0, 1.0);
-    }
-    </script>
-    <script type="x-shader/x-fragment" id="fragment-shader">
-    precision mediump float;
-    void main() {
-      gl_FragColor = vec4(1.0);
-    }
-    </script>
-  
-  </head>
-  <body>
-    <canvas id="rendering-surface" height="500" width="500"/>
-    <script type="text/javascript" src="public/bundle.js"></script>
-  </body>
+	<head>
+	<title>Hacking WebGL</title>
+	<script type="text/javascript" src="public/style.js"></script>
+	<script type="x-shader/x-vertex" id="vertex-shader">
+		precision mediump float;
+		attribute vec2 pos;
+		void main() {
+			gl_Position = vec4(pos, 0.0, 1.0);
+		}
+	</script>
+	<script type="x-shader/x-fragment" id="fragment-shader">
+		precision mediump float;
+		void main() {
+			gl_FragColor = vec4(1.0);
+		}
+	</script>
+	</head>
+	<body>
+		<canvas id="rendering-surface" height="500" width="500"/>
+		<script type="text/javascript" src="public/bundle.js"></script>
+	</body>
 </html>
