@@ -66,9 +66,47 @@ export function init() {
 		2*Float32Array.BYTES_PER_ELEMENT //offset of attribute in vertex
 	);
 	gl.enableVertexAttribArray(attribLocation2);
+	//active le programme (ici, et pas apres, ni avant)
+	gl.useProgram(program);
+	//matrices
+	let worldLoc=gl.getUniformLocation(program, 'world');
+	let worldMat=new Float32Array([
+		1.0, 0.0, 0.0, 0.0,
+		0.0, 1.0, 0.0, 0.0,
+		0.0, 0.0, 1.0, 0.0,
+		0.0, 0.0, 0.0, 1.0,
+	]);
+	gl.uniformMatrix4fv(
+		worldLoc,
+		gl.FALSE,//transposee
+		worldMat
+	);
+	let viewLoc=gl.getUniformLocation(program, 'view');
+	let viewMat=new Float32Array([
+		1.0, 0.0, 0.0, 0.0,
+		0.0, 1.0, 0.0, 0.0,
+		0.0, 0.0, 1.0, 0.0,
+		0.0, 0.0, 0.0, 1.0,
+	]);
+	gl.uniformMatrix4fv(
+		viewLoc,
+		gl.FALSE,//transposee
+		viewMat
+	);
+	let projLoc=gl.getUniformLocation(program, 'proj');
+	let projMat=new Float32Array([
+		1.0, 0.0, 0.0, 0.0,
+		0.0, 1.0, 0.0, 0.0,
+		0.0, 0.0, 1.0, 0.0,
+		0.0, 0.0, 0.0, 1.0,
+	]);
+	gl.uniformMatrix4fv(
+		projLoc,
+		gl.FALSE,//transposee
+		projMat
+	);
 	//dessine
 	gl.clear(gl.COLOR_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
-	gl.useProgram(program);
 	gl.drawArrays(
 		gl.TRIANGLES,
 		0,//skip
