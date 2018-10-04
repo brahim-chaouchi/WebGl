@@ -86,6 +86,7 @@ export function init() {
 		0.0, 0.0, 0.0, 0.0, 0.0,
 		0.5, 0.5, 1.0, 1.0, 1.0,
 	];*/
+	formeBrut.push(0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 1.0, 1.0, 1.0);
 	let formeBuffer=gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, formeBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(formeBrut), gl.STATIC_DRAW);
@@ -156,16 +157,16 @@ export function init() {
 	gl.drawArrays(
 		gl.TRIANGLES,//TRIANGLES,LINES,POINTS...
 		0,//skip
-		formeBrut.length/5//nb to use
+		(formeBrut.length-10)/5//nb to use
 	);
-	/*gl.drawArrays(
+	gl.drawArrays(
 		gl.LINES,
-		3,//skip
+		(formeBrut.length-10)/5,//skip
 		2//nb to use
 	);
 	gl.drawArrays(
 		gl.POINTS,
 		0,//skip
-		5//nb to use
-	);*/
+		formeBrut.length/5//nb to use
+	);
 }
