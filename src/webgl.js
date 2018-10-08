@@ -1,20 +1,21 @@
+import {mat4, glMatrix} from "gl-matrix";
 function CercleMap(formeBrut, pointProj1, pointProj2, pointProj3, ligne12, ligne23, ligne31, depth){
 	if(depth){
-		let point12=[(pointProj1[0]+pointProj2[0])/2, (pointProj1[1]+pointProj2[1])/2];
+		let point12=[(pointProj1[0]+pointProj2[0])/2, (pointProj1[1]+pointProj2[1])/2, (pointProj1[2]+pointProj2[2])/2, (pointProj1[3]+pointProj2[3])/2, (pointProj1[4]+pointProj2[4])/2];
 		let pointNorme12=Math.sqrt(Math.pow(point12[0] ,2)+Math.pow(point12[1] ,2));
-		let pointProj12=[point12[0]/pointNorme12, point12[1]/pointNorme12];
+		let pointProj12=[point12[0]/pointNorme12, point12[1]/pointNorme12, point12[2], point12[3], point12[4]];
 		if(!ligne12){
 			pointProj12=point12;
 		}
-		let point23=[(pointProj2[0]+pointProj3[0])/2, (pointProj2[1]+pointProj3[1])/2];
+		let point23=[(pointProj2[0]+pointProj3[0])/2, (pointProj2[1]+pointProj3[1])/2, (pointProj2[2]+pointProj3[2])/2, (pointProj2[3]+pointProj3[3])/2, (pointProj2[4]+pointProj3[4])/2];
 		let pointNorme23=Math.sqrt(Math.pow(point23[0] ,2)+Math.pow(point23[1] ,2));
-		let pointProj23=[point23[0]/pointNorme23, point23[1]/pointNorme23];
+		let pointProj23=[point23[0]/pointNorme23, point23[1]/pointNorme23, point23[2], point23[3], point23[4]];
 		if(!ligne23){
 			pointProj23=point23;
 		}
-		let point31=[(pointProj3[0]+pointProj1[0])/2, (pointProj3[1]+pointProj1[1])/2];
+		let point31=[(pointProj3[0]+pointProj1[0])/2, (pointProj3[1]+pointProj1[1])/2, (pointProj3[2]+pointProj1[2])/2, (pointProj3[3]+pointProj1[3])/2, (pointProj3[4]+pointProj1[4])/2];
 		let pointNorme31=Math.sqrt(Math.pow(point31[0] ,2)+Math.pow(point31[1] ,2));
-		let pointProj31=[point31[0]/pointNorme31, point31[1]/pointNorme31];
+		let pointProj31=[point31[0]/pointNorme31, point31[1]/pointNorme31, point31[2], point31[3], point31[4]];
 		if(!ligne31){
 			pointProj31=point31;
 		}
@@ -23,9 +24,9 @@ function CercleMap(formeBrut, pointProj1, pointProj2, pointProj3, ligne12, ligne
 		CercleMap(formeBrut, pointProj31, pointProj23, pointProj3, false, ligne23, ligne31, depth-1);
 	}
 	else{
-		formeBrut.push(pointProj1[0], pointProj1[1], 1.0, 1.0, 1.0);
-		formeBrut.push(pointProj2[0], pointProj2[1], 1.0, 1.0, 1.0);
-		formeBrut.push(pointProj3[0], pointProj3[1], 1.0, 1.0, 1.0);
+		formeBrut.push(pointProj1[0], pointProj1[1], pointProj1[2], pointProj1[3], pointProj1[4]);
+		formeBrut.push(pointProj2[0], pointProj2[1], pointProj2[2], pointProj2[3], pointProj2[4]);
+		formeBrut.push(pointProj3[0], pointProj3[1], pointProj3[2], pointProj3[3], pointProj3[4]);
 	}
 }
 export function init() {
@@ -67,26 +68,24 @@ export function init() {
 	//let point1=[0.0, 0.5];
 	let point1=[Math.cos(Math.PI/2), Math.sin(Math.PI/2)];
 	let pointNorme1=Math.sqrt(Math.pow(point1[0] ,2)+Math.pow(point1[1] ,2));
-	let pointProj1=[point1[0]/pointNorme1, point1[1]/pointNorme1];
+	let pointProj1=[point1[0]/pointNorme1, point1[1]/pointNorme1, 1.0, 0.0, 0.0];
 	//let point2=[-0.5, -0.5];
 	let point2=[Math.cos((Math.PI*2/3)+(Math.PI/2)), Math.sin((Math.PI*2/3)+(Math.PI/2))];
 	let pointNorme2=Math.sqrt(Math.pow(point2[0] ,2)+Math.pow(point2[1] ,2));
-	let pointProj2=[point2[0]/pointNorme2, point2[1]/pointNorme2];
+	let pointProj2=[point2[0]/pointNorme2, point2[1]/pointNorme2, 0.0, 1.0, 0.0];
 	//let point3=[0.5, -0.5];
 	let point3=[Math.cos((Math.PI*4/3)+(Math.PI/2)), Math.sin((Math.PI*4/3)+(Math.PI/2))];
 	let pointNorme3=Math.sqrt(Math.pow(point3[0] ,2)+Math.pow(point3[1] ,2));
-	let pointProj3=[point3[0]/pointNorme3, point3[1]/pointNorme3];
+	let pointProj3=[point3[0]/pointNorme3, point3[1]/pointNorme3, 0.0, 0.0, 1.0];
+	/* points en 3D
+	pointProj1=[Math.cos(0.0), Math.sin(0.0), 0.0, 1.0, 1.0, 1.0];
+	pointProj2=[Math.cos(Math.PI*2/3), Math.sin(Math.PI*2/3), 0.0, 1.0, 0.0, 0.0];
+	pointProj3=[Math.cos(Math.PI*2/3), Math.sin(Math.PI*2/3)*Math.cos(Math.PI*2/3), Math.sin(Math.PI*2/3)*Math.sin(Math.PI*2/3), 0.0, 1.0, 0.0];
+	pointProj4=[Math.cos(Math.PI*2/3), Math.sin(Math.PI*2/3)*Math.cos(Math.PI*4/3), Math.sin(Math.PI*2/3)*Math.sin(Math.PI*4/3), 0.0, 0.0, 1.0];*/
 	let formeBrut=[];
 	CercleMap(formeBrut, pointProj1, pointProj2, pointProj3, true, true, true, 5);
-	/*let formeBrut=[
-		//x, y, r, v, b
-		pointProj1[0], pointProj1[1], 1.0, 0.0, 0.0,
-		pointProj2[0], pointProj2[1], 0.0, 1.0, 0.0,
-		pointProj3[0], pointProj3[1], 0.0, 0.0, 1.0,
-		0.0, 0.0, 0.0, 0.0, 0.0,
-		0.5, 0.5, 1.0, 1.0, 1.0,
-	];*/
-	formeBrut.push(0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 1.0, 1.0, 1.0);
+	formeBrut.push(0.0, 0.0, 0.0, 0.0, 0.0);
+	formeBrut.push(0.5, 0.5, 1.0, 1.0, 1.0);
 	let formeBuffer=gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, formeBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(formeBrut), gl.STATIC_DRAW);
@@ -123,6 +122,8 @@ export function init() {
 		0.0, 0.0, 1.0, 0.0,
 		0.0, 0.0, 0.0, 1.0,
 	]);
+	console.log('World matrix');
+	console.log(worldMat);
 	gl.uniformMatrix4fv(
 		worldLoc,
 		gl.FALSE,//transposee
@@ -135,6 +136,9 @@ export function init() {
 		0.0, 0.0, 1.0, 0.0,
 		0.0, 0.0, 0.0, 1.0,
 	]);
+	mat4.lookAt(viewMat, [0, 0, 2.5], [0, 0, 0], [0, 10, 0]);
+	console.log('View matrix');
+	console.log(viewMat);
 	gl.uniformMatrix4fv(
 		viewLoc,
 		gl.FALSE,//transposee
@@ -147,6 +151,9 @@ export function init() {
 		0.0, 0.0, 1.0, 0.0,
 		0.0, 0.0, 0.0, 1.0,
 	]);
+	mat4.perspective(projMat, glMatrix.toRadian(45), surface.width/surface.height, 0.1, 1000.0);
+	console.log('Proj matrix');
+	console.log(projMat);
 	gl.uniformMatrix4fv(
 		projLoc,
 		gl.FALSE,//transposee
