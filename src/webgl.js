@@ -136,7 +136,7 @@ export function init() {
 		0.0, 0.0, 1.0, 0.0,
 		0.0, 0.0, 0.0, 1.0,
 	]);
-	mat4.lookAt(viewMat, [0, 0, 2.5], [0, 0, 0], [0, 10, 0]);
+	mat4.lookAt(viewMat, [0, 0, 1.5], [0, 0, 0], [0, 1, 0]);
 	console.log('View matrix');
 	console.log(viewMat);
 	gl.uniformMatrix4fv(
@@ -151,29 +151,48 @@ export function init() {
 		0.0, 0.0, 1.0, 0.0,
 		0.0, 0.0, 0.0, 1.0,
 	]);
-	mat4.perspective(projMat, glMatrix.toRadian(45), surface.width/surface.height, 0.1, 1000.0);
+	mat4.perspective(projMat, glMatrix.toRadian(90), surface.width/surface.height, 0.1, 1000.0);
 	console.log('Proj matrix');
 	console.log(projMat);
+	let idMat=new Float32Array([
+		1.0, 0.0, 0.0, 0.0,
+		0.0, 1.0, 0.0, 0.0,
+		0.0, 0.0, 1.0, 0.0,
+		0.0, 0.0, 0.0, 1.0,
+	]);
 	gl.uniformMatrix4fv(
 		projLoc,
 		gl.FALSE,//transposee
 		projMat
 	);
 	//dessine
-	gl.clear(gl.COLOR_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
-	gl.drawArrays(
-		gl.TRIANGLES,//TRIANGLES,LINES,POINTS...
-		0,//skip
-		(formeBrut.length-10)/5//nb to use
-	);
-	gl.drawArrays(
-		gl.LINES,
-		(formeBrut.length-10)/5,//skip
-		2//nb to use
-	);
-	gl.drawArrays(
-		gl.POINTS,
-		0,//skip
-		formeBrut.length/5//nb to use
-	);
+	let loop=function(){
+		let angle = performance.now()/1000/6*2*Math.PI;
+		mat4.rotate(worldMat, idMat, angle, [0, 1, 0]);
+		gl.uniformMatrix4fv(
+			worldLoc,
+			gl.FALSE,//transposee
+			worldMat
+		);
+		console.log('World matrix');
+		console.log(worldMat);
+		gl.clear(gl.COLOR_BUFFER_BIT, gl.DEPTH_BUFFER_BIT);
+		gl.drawArrays(
+			gl.TRIANGLES,//TRIANGLES,LINES,POINTS...
+			0,//skip
+			(formeBrut.length-10)/5//nb to use
+		);
+		gl.drawArrays(
+			gl.LINES,
+			(formeBrut.length-10)/5,//skip
+			2//nb to use
+		);
+		gl.drawArrays(
+			gl.POINTS,
+			0,//skip
+			formeBrut.length/5//nb to use
+		);
+		requestAnimationFrame(loop);
+	};
+	requestAnimationFrame(loop);
 }
