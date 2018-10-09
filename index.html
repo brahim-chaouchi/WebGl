@@ -3,7 +3,23 @@
 	<head>
 	<title>Hacking WebGL</title>
 	<script type="text/javascript" src="public/style.js"></script>
-	<script type="x-shader/x-vertex" id="vertex-shader">
+	<script type="x-shader/x-vertex" id="vertex-shader3d">
+		//espace et matrices de transformation en 3d
+		precision mediump float;
+		attribute vec3 pos;
+		attribute vec3 vertColor;
+		varying vec3 fragColor;
+		uniform mat4 world;
+		uniform mat4 view;
+		uniform mat4 proj;
+		void main() {
+			fragColor=vertColor;
+			gl_Position = proj*view*world*vec4(pos, 1.0);
+			gl_PointSize = 5.0;
+		}
+	</script>
+	<script type="x-shader/x-vertex" id="vertex-shader2d2">
+		//espace en 2d et matrices de transformation 3d
 		precision mediump float;
 		attribute vec2 pos;
 		attribute vec3 vertColor;
@@ -14,6 +30,18 @@
 		void main() {
 			fragColor=vertColor;
 			gl_Position = proj*view*world*vec4(pos, 0.0, 1.0);
+			gl_PointSize = 5.0;
+		}
+	</script>
+	<script type="x-shader/x-vertex" id="vertex-shader2d">
+		//espace en 2d
+		precision mediump float;
+		attribute vec2 pos;
+		attribute vec3 vertColor;
+		varying vec3 fragColor;
+		void main() {
+			fragColor=vertColor;
+			gl_Position = vec4(pos, 0.0, 1.0);
 			gl_PointSize = 5.0;
 		}
 	</script>
