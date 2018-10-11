@@ -46,20 +46,13 @@ function FaceMap(formeBrut, pointProj1, pointProj2, pointProj3, depth){
 		let beta23=Math.atan2(point23[1], Math.sqrt(Math.pow(point23[2], 2)+Math.pow(point23[0], 2)));
 		let beta31=Math.atan2(point31[1], Math.sqrt(Math.pow(point31[2], 2)+Math.pow(point31[0], 2)));
 		
-		console.log('points');
-		console.log([[point12[0], point12[1], point12[2]], [toDeg(alpha12), toDeg(beta12)]]);
-		console.log([[point23[0], point23[1], point23[2]], [toDeg(alpha23), toDeg(beta23)]]);
-		console.log([[point31[0], point31[1], point31[2]], [toDeg(alpha31), toDeg(beta31)]]);
-		
-		/*let pointProj12=[Math.cos(beta12)*Math.cos(alpha12-(Math.PI/4)), Math.sin(beta12), -Math.cos(beta12)*Math.sin(alpha12-(Math.PI/4)), point12[3], point12[4], point12[5]];
-		let pointProj23=[Math.cos(beta23)*Math.cos(alpha23-(Math.PI/4)), Math.sin(beta23), -Math.cos(beta23)*Math.sin(alpha23-(Math.PI/4)), point23[3], point23[4], point23[5]];
-		let pointProj31=[Math.cos(beta31)*Math.cos(alpha31-(Math.PI/4)), Math.sin(beta31), -Math.cos(beta31)*Math.sin(alpha31-(Math.PI/4)), point31[3], point31[4], point31[5]];*/
-		
 		let pointBeta12=[Math.cos(beta12), Math.sin(beta12), 0];
+		let pointBeta23=[Math.cos(beta23), Math.sin(beta23), 0];
+		let pointBeta31=[Math.cos(beta31), Math.sin(beta31), 0];
 		
-		let pointProj12=[point12[0], point12[1], point12[2], point12[3], point12[4], point12[5]];
-		let pointProj23=[point23[0], point23[1], point23[2], point23[3], point23[4], point23[5]];
-		let pointProj31=[point31[0], point31[1], point31[2], point31[3], point31[4], point31[5]];
+		let pointProj12=[Math.cos(beta12)*Math.cos(alpha12), Math.sin(beta12), -Math.cos(beta12)*Math.sin(alpha12), point12[3], point12[4], point12[5]];
+		let pointProj23=[Math.cos(beta23)*Math.cos(alpha23), Math.sin(beta23), -Math.cos(beta23)*Math.sin(alpha23), point23[3], point23[4], point23[5]];
+		let pointProj31=[Math.cos(beta31)*Math.cos(alpha31), Math.sin(beta31), -Math.cos(beta31)*Math.sin(alpha31), point31[3], point31[4], point31[5]];
 		
 		FaceMap(formeBrut, pointProj1, pointProj12, pointProj31, depth-1);
 		FaceMap(formeBrut, pointProj2, pointProj23, pointProj12, depth-1);
