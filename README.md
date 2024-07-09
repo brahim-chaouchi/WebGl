@@ -13,3 +13,8 @@ Exemple webgl
 ### finition
 	cd WebGl
 	npm run build
+
+## lancement
+
+	chromium dist/index.html
+
